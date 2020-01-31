@@ -2,7 +2,7 @@
 Docs version: 1.0.0<br>
 Last updated: Nov 13, 2019
 
-Xenchain SDK for Cordova is SDK that allows the use of ID Scanning Features and Face Match capabilities into Cordova Applications. This version is a ported/conversion version of existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk_v1.1) and [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework_v1.1), featuring the usage of Native SDK functions and ease of integration for Cordova Developments. This version is intended and used to fulfill SME Sector requirements.
+Xenchain SDK for Cordova is SDK that allows the use of ID Scanning Features and Face Match capabilities into Cordova Applications. This version is a ported/converted version of existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk_v1.1) and [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework_v1.1), featuring the usage of Native SDK functions and ease of integration for Cordova Development. This version is intended and used to fulfill SME (Small and Medium Enterprise) Sector requirements.
 
 ## <a name="Authors"></a> Authors
 Jovial Tan (jovial@xendity.com)<br>
@@ -37,8 +37,8 @@ Jovial Tan (jovial@xendity.com)<br>
 | • KBA Verification                                    |
 
 ### <a name="AddSDK"></a> Adding SDK into project
-<i>Step 1:</i> Download Xenchain SDK folder into local folder. The files are located in together with this document. Otherwise, please contact Xendity Admin for SDK request.
-Please note that before any integration to the existing project, the developer may opt to modify the codes in the plugin to suit their requirements e.g. Camera UI. <br>
+<i>Step 1:</i> Download Xenchain SDK folder into local folder. The files are located together in the same directory with this document. Otherwise, please contact Xendity Admin for SDK request.
+Please note that before any integration is done to the existing project, the developer may opt to modify the codes in the plugin to suit their requirements e.g. Camera UI. <br>
 
 <i>Step 2:</i> Integrate the SDK into existing project:
 1. Go to Command Prompt and navigate to the designated project folder that requires the SDK Integration.
