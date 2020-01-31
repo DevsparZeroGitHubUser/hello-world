@@ -38,16 +38,16 @@ Jovial Tan (jovial@xendity.com)<br>
 
 ### <a name="AddSDK"></a> Adding SDK into project
 <i>Step 1:</i> Download Xenchain SDK folder into local folder. The files are located together in the same directory with this document. Otherwise, please contact Xendity Admin for SDK request.
-Please note that before any integration is done to the existing project, the developer may opt to modify the codes in the plugin to suit their requirements e.g. Camera UI. <br>
+Please note that before any integration is done to the existing project, you may modify the codes in the plugin to suit your requirements e.g. Camera UI. <br>
 
 <i>Step 2:</i> Integrate the SDK into existing project:
 1. Go to Command Prompt and navigate to the designated project folder that requires the SDK Integration.
 2. Execute `cordova plugin add (path to the local folder of the downloaded Xenchain SDK Plugin)`.
-3. Execute `cordova build` and ensure both platforms are build successfully.
+3. Execute `cordova build` and ensure both platforms are built successfully.
 
 ## <a name="InitialSetup"></a> Initial Setup
 ### <a name="DeclarationManifest"></a> Declaration AndroidManifest.xml
-<i>Step 1</i>: The SDK uses permissions as listed below for **Android Platform**. Kindly note that the app are required to implements it's own Permission Request as the SDK does not provide Permission Request.
+<i>Step 1</i>: The SDK uses permissions as listed below for **Android Platform**. Kindly note that the app requires to implement it's own Permission Requests as the SDK does not provide Permission Requests.
 ```xml
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -60,7 +60,7 @@ Please note that before any integration is done to the existing project, the dev
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
-<i>Step 2</i>: For Android Platform depending on the API URL provided, additional resources file with the following path and name (res/xml/network_security_config.xml) is required:
+<i>Step 2</i>: For Android Platform depending on the API URL provided, additional resources file with the following code, path and name (res/xml/network_security_config.xml) is required:
 ```xml
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
@@ -70,20 +70,20 @@ Please note that before any integration is done to the existing project, the dev
 ```
 
 ### <a name="InitXenchainSDK"></a> Initialize Xenchain SDK
-Please ensure that you execute the below code first with it's callback called before proceeding to other features of the SDK.
+Please ensure that you execute the code below first before proceeding to other features of the SDK. If not, other features will not run or will produce errors.
 ```javascript
 cordova.plugins.XenchainSDK.initSDK(String apiKey, String apiURL, boolean onPremSaveData, successCallback, errorCallback);
 ```
 | Parameter       | Description |
 |-----------------|-------------|
 | apiKey          | API Key for activating SDK Features. Please note that both Android & iOS will have different API Key, the app must use different API Key for different platform. |
-| apiURL          | URL Server Address which can be configured to point another server should client request private server. The value of this parameter will need to be requested from Xendity Admin. |
+| apiURL          | URL Server Address which can be configured to point to another server should client request private server. The value of this parameter will need to be requested from Xendity Admin. |
 | onPremSaveData  | Determines whether the data returned from SDK will be saved into on-premise server. Only applicable if the client decided to host the backend server into client's own server. |
 | successCallback | Callback function for returning the success results of `initSDK` function. If called means that the App has access to other features enabled by Xendity. |
 | errorCallback   | Callback function for returning the error results of `initSDK` function. |
 
 ## <a name="SDKConfiguration"></a> Additional SDK configuration
-Please note that the below configuration can only be configured through the respective Native Interface. Refer to the **CordovaXenchainSDK.java** or **CordovaXenchainSDK.m** file for Android or iOS platform respectively for the settings below.
+Please note that the configuration below can only be configured through their respective Native Interface. Please refer to the **CordovaXenchainSDK.java** or **CordovaXenchainSDK.m** file for Android or iOS platform respectively for the settings below.
 ```java
 /** Will use for the Scanning Sound e.g. beep sound when scan successfully **/
 XenchainSDK.ScanningSound = inputActivity.getResources().getIdentifier("modern_data_beep", "raw", inputActivity.getPackageName());
@@ -96,11 +96,11 @@ XenchainSDK.LoadingImage = inputActivity.getResources().getIdentifier("@drawable
 /** Refers to the Loading Image of the SDKs **/
 [XenchainSDK setLoadingLogo:[UIImage imageNamed:@"loading_logo.png"]];
 ```
-Additionally the above resources (modern_data_beep.mp3 and/or loading_logo.png) may simply be replaced with other resources provided it's filename is the same.
+Additionally the above resource files (modern_data_beep.mp3 and/or loading_logo.png) may be replaced with other resource file provided the filename and type is the same.
 
 ## <a name="ImplementationIDCardReader"></a> Implementation of ID Card Reader
 ### <a name="XScannerActivity"></a> Implementation of Custom Scanner Activity
-Before proceed calling the `deployScanner` function, the app must have an Extended `XScannerActivity` or `XScannerViewController` class, in which the extended class will be used to Scan ID Card. For Cordova implementation, these classes have been implemented in the plugin. Refer to **CameraOCRActivity.java (activity_camera_ocr.xml for UI)** for Java or **CameraOCRViewController.h and CameraOCRViewController.m (Xenchain.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
+Before proceeding to call the `deployScanner` function, the app must have an Extended `XScannerActivity` or `XScannerViewController` class, in which the extended class will be used to Scan ID Card. For Cordova implementation, these classes have been implemented in the plugin. Refer to **CameraOCRActivity.java (activity_camera_ocr.xml for UI)** for Java or **CameraOCRViewController.h and CameraOCRViewController.m (Xenchain.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
 
 ### <a name="StartScanID"></a> Start Scan ID CARD
 ```javascript
@@ -112,7 +112,7 @@ cordova.plugins.XenchainSDK.deployScanner(int scanType, successCallback, errorCa
 | successCallback | Callback function for returning the success results of `deployScanner` function. It will be represented as JSON format. |
 | errorCallback   | Callback function for returning the error results of `deployScanner` function. It will be represented as String format. |
 
-Kindly note that the below code is required to be executed after `successCallback` function being called. Otherwise, for each scanning, the SDK will charged the scan and in on-premise server case, no data will be passed to server.
+Kindly note that the below code is required to be executed after `successCallback` function being called. Otherwise, for each scanning, the SDK will charged (billed) the scan and in on-premise server case, no data will be passed to server.
 ```javascript
 cordova.plugins.XenchainSDK.completeScanDeployment(String onBoardingID, String cardFrontReferenceID, String faceReferenceID, String cardBackReferenceID, JSONObject cardResult, successCallback, errorCallback);
 ```
@@ -128,7 +128,7 @@ cordova.plugins.XenchainSDK.completeScanDeployment(String onBoardingID, String c
 
 ### <a name="ScanningConfiguration"></a> Scanning Configuration
 The behavior of scanning must be configured through the implementation of the class below. Each of the class represents each IDs that are supported by the SDK.
-Please note, further configurations must be set in Native Code instead, refer to the **CordovaXenchainSDK.java** or **CordovaXenchainSDK.m** file for Android or iOS platform respectively.
+Please note, any further configurations must be set in Native Code instead, refer to the **CordovaXenchainSDK.java** or **CordovaXenchainSDK.m** file for Android or iOS platform respectively.
 
 | Scan Config Class | Description                                    |
 |-------------------|------------------------------------------------|
@@ -138,10 +138,10 @@ Please note, further configurations must be set in Native Code instead, refer to
 
 ## <a name="ImplementationFaceRecord"></a> Implementation Face Record feature
 ### <a name="XFaceMatchActivity"></a> Implementation of Custom Face Record Activity
-Before proceed calling the `deployFaceRecord` function, the app must have an Extended `XFaceRecordActivity` or `XFaceRecordViewController` class, in which the extended class will be used to process Face Recording. For Cordova implementation, these classes have been implemented in the plugin. Refer to **FaceRecordActivity.java (activity_face_record.xml for UI)** for Java or **FaceRecordViewController.h and FaceRecordViewController.m (Xenchain.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
+Before proceeding to call the `deployFaceRecord` function, the app must have an Extended `XFaceRecordActivity` or `XFaceRecordViewController` class, in which the extended class will be used to process Face Recording. For Cordova implementation, these classes have been implemented in the plugin. Refer to **FaceRecordActivity.java (activity_face_record.xml for UI)** for Java or **FaceRecordViewController.h and FaceRecordViewController.m (Xenchain.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
 
 ### <a name="StartFaceLiveness"></a> Start Face Liveness feature
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Record Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to Face Record Feature.
 ```javascript
 cordova.plugins.XenchainSDK.deployFaceRecord(String onBoardingID, successCallback, errorCallback);
 ```
@@ -153,7 +153,7 @@ cordova.plugins.XenchainSDK.deployFaceRecord(String onBoardingID, successCallbac
 
 ## <a name="ImplementationKBAVerification"></a> Implementation KBA Verification related feature.
 ### <a name="IDVerification"></a> Implementation of ID Verification for KBA Verification
-Kindly note that ID Scan Feature must be implemented first and executed before proceed for ID Verification feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to ID Verification feature.
 ```javascript
 cordova.plugins.XenchainSDK.IDVerificationForOnBoarding(String onBoardingID, successCallback, errorCallback);
 ```
@@ -163,7 +163,7 @@ cordova.plugins.XenchainSDK.IDVerificationForOnBoarding(String onBoardingID, suc
 | successCallback   | Callback function for returning the success results of `IDVerificationForOnBoarding` function. It will be represented as JSON format. |
 | errorCallback     | Callback function for returning the error results of `IDVerificationForOnBoarding` function. It will be represented as String format. |
 
-The sample value returned from `successCallback` for the above function is shown as below.
+The sample value returned from `successCallback` for the above function is shown below.
 ```json
 {
     "ref_no": "123456789012",
@@ -174,7 +174,7 @@ The sample value returned from `successCallback` for the above function is shown
 ```
 
 ### <a name="KBARequest"></a> Implementation of KBA Request for Onboarding.
-Kindly note that ID Scan Feature & ID Verification Feature must be implemented first and executed before proceed for KBA Request. This feature will be used to provide questions for the users to answers.
+Kindly note that ID Scan Feature & ID Verification Feature must be implemented and executed first before proceeding to KBA Request. This feature will be used to provide questions for the user to answer.
 ```javascript
 cordova.plugins.XenchainSDK.RequestKBAForOnBoarding(String onBoardingID, String referenceNo, successCallback, errorCallback);
 ```
@@ -212,7 +212,7 @@ The sample value returned from `successCallback` for the above function is shown
 ```
 
 ### <a name="KBAVerification"></a> Implementation of KBA Verification for Onboarding.
-Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented first and executed before proceed for KBA Verification.
+Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented and executed first before proceeding to KBA Verification.
 ```javascript
 cordova.plugins.XenchainSDK.VerifyKBAForOnBoarding(String onBoardingID, String referenceNo, String answers, Activity inputActivity, final XenchainKBACallback callback);
 ```
