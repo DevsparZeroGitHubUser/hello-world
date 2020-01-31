@@ -2,7 +2,7 @@
 Docs version: 1.0.1<br>
 Last updated: Dec 13, 2019
 
-Xendity SDK for Cordova is SDK that allows the use of ID Scanning Features and Face Match capabilities into Cordova Applications. This version is a ported/conversion version of existing [Xendity SDK for Android Platform](https://github.com/XenchainIO/xendity_android_sdk) and [Xendity SDK for iOS Platform](https://github.com/XenchainIO/xendity_ios_framework), featuring the usage of Native SDK functions and ease of integration for Cordova Developments. This version is intended and used to fulfill SME Sector requirements.
+**Xendity SDK for Cordova** is a SDK that allows the use of ID Scanning Features and Face Match capabilities in Cordova Applications. This version is a ported/converted version of existing [Xendity SDK for Android Platform](https://github.com/XenchainIO/xendity_android_sdk) and [Xendity SDK for iOS Platform](https://github.com/XenchainIO/xendity_ios_framework), featuring the usage of Native SDK functions and ease of integration for Cordova Developments. This version is intended and used to fulfill SME (Small and Medium Entreprise) Sector requirements.
 
 ## <a name="Authors"></a> Authors
 Jovial Tan (jovial@xendity.com)<br>
@@ -48,8 +48,8 @@ Jovial Tan (jovial@xendity.com)<br>
 | • KBA Verification                                    |
 
 ### <a name="AddSDK"></a> Adding SDK into project
-<i>Step 1:</i> Download Xendity SDK folder into local folder. The files are located in together with this document. Otherwise, please contact Xendity Admin for SDK request.
-Please note that before any integration to the existing project, the developer may opt to modify the codes in the plugin to suit their requirements e.g. Camera UI. <br>
+<i>Step 1:</i> Download Xendity SDK folder into local folder. The files are located together in the same directory with this document. Otherwise, please contact Xendity Admin for SDK request.
+Please note that before any integration is done to the existing project, you may modify the codes in the plugin to suit your requirements e.g. Camera UI. <br>
 
 <i>Step 2:</i> Integrate the SDK into existing project:
 1. Go to Command Prompt and navigate to the designated project folder that requires the SDK Integration.
@@ -58,7 +58,7 @@ Please note that before any integration to the existing project, the developer m
 
 ## <a name="InitialSetup"></a> Initial Setup
 ### <a name="DeclarationManifest"></a> Declaration AndroidManifest.xml
-<i>Step 1</i>: The SDK uses permissions as listed below for **Android Platform**. Kindly note that the app are required to implements it's own Permission Request as the SDK does not provide Permission Request.
+<i>Step 1</i>: The SDK uses permissions as listed below for **Android Platform**. Kindly note that the app requires to implement it's own Permission Requests as the SDK does not provide Permission Requests.
 ```xml
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -69,7 +69,7 @@ Please note that before any integration to the existing project, the developer m
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
-<i>Step 2</i>: For Android Platform depending on the API URL provided, additional resources file with the following path and name (res/xml/network_security_config.xml) is required:
+<i>Step 2</i>: For Android Platform depending on the API URL provided, additional resources file with the following code, path and name (res/xml/network_security_config.xml) is required:
 ```xml
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
@@ -79,19 +79,19 @@ Please note that before any integration to the existing project, the developer m
 ```
 
 ### <a name="InitXenditySDK"></a> Initialize Xendity SDK
-Please ensure that you execute the below code first with it's callback called before proceeding to other features of the SDK.
+Please ensure that you execute the code below first with the callback called before proceeding to other features of the SDK. If not, other features will not run or will produce errors.
 ```javascript
 cordova.plugins.XenditySDK.initSDK(String apiKey, String apiURL, successCallback, errorCallback);
 ```
 | Parameter       | Description |
 |-----------------|-------------|
 | apiKey          | API Key for activating SDK Features. Please note that both Android & iOS will have different API Key, the app must use different API Key for different platform. |
-| apiURL          | URL Server Address which can be configured to point another server should client request private server. The value of this parameter will need to be requested from Xendity Admin. |
+| apiURL          | URL Server Address which can be configured to point to another server should client request private server. The value of this parameter will need to be requested from Xendity Admin. |
 | successCallback | Callback function for returning the success results of `initSDK` function. If called means that the App has access to other features enabled by Xendity. |
 | errorCallback   | Callback function for returning the error results of `initSDK` function. |
 
 ## <a name="SDKConfiguration"></a> Additional SDK configuration
-Please note that the below configuration can only be configured through the respective Native Interface. Refer to the **CordovaXenditySDK.java** or **CordovaXenditySDK.m** file for Android or iOS platform respectively for the settings below.
+Please note that the configuration below can only be configured through their respective Native Interface. Please refer to the **CordovaXenditySDK.java** or **CordovaXenditySDK.m** file for Android or iOS platform respectively for the settings below.
 ```java
 /** Will use for the Scanning Sound e.g. beep sound when scan successfully **/
 XenditySDK.ScanningSound = inputActivity.getResources().getIdentifier("modern_data_beep", "raw", inputActivity.getPackageName());
@@ -104,14 +104,14 @@ XenditySDK.LoadingImage = inputActivity.getResources().getIdentifier("@drawable/
 /** Refers to the Loading Image of the SDKs **/
 [XenditySDK setLoadingLogo:[UIImage imageNamed:@"loading_logo.png"]];
 ```
-Additionally the above resources (modern_data_beep.mp3 and/or loading_logo.png) may simply be replaced with other resources provided it's filename is the same.
+Additionally the above resource files (modern_data_beep.mp3 and/or loading_logo.png) may be replaced with other resource file provided the filename and type is the same.
 
 ## <a name="ImplementationIDCardReader"></a> Implementation of ID Card Reader
 ### <a name="XScannerActivity"></a> Implementation of Custom Scanner Activity
 Before proceed calling the `deployScanner` function, the app must have an Extended `XScannerActivity` or `XScannerViewController` class, in which the extended class will be used to Scan ID Card. For Cordova implementation, these classes have been implemented in the plugin. Refer to **CameraOCRActivity.java (activity_camera_ocr.xml for UI)** for Java or **CameraOCRViewController.h and CameraOCRViewController.m (Xendity.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
 
 ### <a name="PreDeployment"></a> Pre-Deployment Details for Text Similarity Results
-Before proceeding for `deployScanner`, the app may opt to execute the below function. In this case, this function is used as a check value, which will be compared against OCR Results obtained from `deployScanner` function.
+Before proceeding to `deployScanner`, the app may opt to execute the function below. In this case, this function is used as a check value, which will be compared against OCR Results obtained from `deployScanner` function.
 ```javascript
 cordova.plugins.XenditySDK.setPreDeployment(String userID, JSONObject inputDetails, successCallback, errorCallback);
 ```
@@ -140,7 +140,7 @@ cordova.plugins.XenditySDK.deployScanner(int scanType, successCallback, errorCal
 | successCallback | Callback function for returning the success results of `deployScanner` function. It will be represented as JSON format. |
 | errorCallback   | Callback function for returning the error results of `deployScanner` function. It will be represented as String format. |
 
-After `successCallback` is called, the app must call the below function to confirm the results of the `successCallback`. This means that the SDK will confirmed that the `deployScanner` function is considered as completed and will be charged as per overall onboarding transaction. Failure to do so would mean that for each `deployScanner` call, the SDK will charged each of the call.
+After `successCallback` is called, the app must call the function below to confirm the results of the `successCallback`. This means that the SDK will confirm that the `deployScanner` function is considered as completed and will be charged (billed) as per overall onboarding transaction. Failure to do so would mean that for each `deployScanner` call, the SDK will charged (billed) each of the call.
 ```javascript
 cordova.plugins.XenditySDK.completeScanDeployment(String onBoardingID, JSONObject metaCardResult, JSONObject cardResult, int scanType, successCallback, errorCallback);
 ```
@@ -171,7 +171,7 @@ Below show the supported scanning type.
 Before proceed calling the `deployFaceRecord` function, the app must have an Extended `XFaceRecordActivity` or `XFaceRecordViewController` class, in which the extended class will be used to process Face Recording. For Cordova implementation, these classes have been implemented in the plugin. Refer to **FaceRecordActivity.java (activity_face_record.xml for UI)** for Java or **FaceRecordViewController.h and FaceRecordViewController.m (Xendity.storyboard for UI)** for iOS. The default UI has been implemented for both platform. Any changes on the UI can be done through these files.
 
 ### <a name="StartFaceLiveness"></a> Start Face Liveness feature
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Record Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to Face Record Feature.
 ```javascript
 cordova.plugins.XenditySDK.deployFaceRecord(String onBoardingID, successCallback, errorCallback);
 ```
