@@ -2,7 +2,7 @@
 SDK version: 1.0.8<br>
 Last updated: Jan 30, 2020
 
-Xendity SDK for Android is SDK that allows the use of ID Scanning Features and Face Match capabilities into Android Applications. This version is an In-House Version of the existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk), featuring improvement of Performance and ease of integration in comparison to older version.
+**Xendity SDK for Android** is an SDK that allows the use of ID Document Scanning Features and Face Match capabilities on your Android Applications. This version is an *In-House Version* of the existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk), featuring more improvement in performance and ease of integration in comparison to older version.
 
 ## <a name="Authors"></a> Authors
 Jovial Tan (jovial@xendity.com)<br>
@@ -130,13 +130,13 @@ Jovial Tan (jovial@xendity.com)<br>
 | :--------------: | ------- | ------------- |
 | Step 0           | Initialize Xendity SDK | [`initSDK`](#-initialize-xendity-sdk) |
 | Step 1           | Implementation of ID Card Reader | [`deployScanner`](#-implementation-of-id-card-reader) |
-| Step 2           | Implementation Face match feature | [`deployFaceMatch`](#-implementation-face-match-feature) |
-| Step 2           | Implementation Liveness feature | [`deployFaceRecord`](#-implementation-liveness-feature) |
-| Step 3           | Implementation KBA Verification related feature | [`IDVerificationForOnBoarding`](#-implementation-kba-verification-related-feature) |
+| Step 2           | Implementation of Face Match Feature | [`deployFaceMatch`](#-implementation-face-match-feature) |
+| Step 2           | Implementation of Liveness Feature | [`deployFaceRecord`](#-implementation-liveness-feature) |
+| Step 3           | Implementation of KBA Verification Related Feature | [`IDVerificationForOnBoarding`](#-implementation-kba-verification-related-feature) |
 | Step 4           | Implementation of KBA Request for Onboarding.<br />Implementation of KBA Verification for Onboarding. | [`RequestKBAForOnBoarding`](#-implementation-of-kba-request-for-onboarding)<br />[`VerifyKBAForOnBoarding`](#-implementation-of-kba-verification-for-onboarding) |
 
 ### <a name="AddSDK"></a> Adding SDK into project
-<i>Step 1:</i> Download Xendity SDK .aar file. Please note that you are required to use Git LFS to download the Frameworks folder. Otherwise, manually download the [Xendity SDK](Frameworks/XenditySDK.aar) file and replace it into the Frameworks folder. <br>
+<i>Step 1:</i> Download the Xendity SDK .aar file. Please note that you are required to use Git LFS (Git Large File Storage) to download the Frameworks folder. Otherwise, manually download the [Xendity SDK](Frameworks/XenditySDK.aar) file and replace it into the Frameworks folder. <br>
 
 <i>Step 2:</i> (option 1): Adding the .aar into your project:
 1. Select File > New > New Module
@@ -150,7 +150,7 @@ Jovial Tan (jovial@xendity.com)<br>
 2. Copy your .aar file to src/main/libs
 3. Open 'build.gradle' file(the one under 'app') and add dependency:
    * implementation(name: 'XenditySDK', ext: 'aar')
-4. An error message, "Failed to resolve :my library" will be displayed. To fix this error open the top level 'build.gradle' file and add the following code:
+4. An error message, "Failed to resolve :my library" will be displayed, this is normal. To fix this error open the top level 'build.gradle' file and add the following code:
 ```javascript
 defaultConfig {
     // The rest of the Config....
@@ -188,7 +188,7 @@ implementation 'com.google.android.gms:play-services-vision:17.0.2'
 
 ## <a name="InitialSetup"></a> Initial Setup
 ### <a name="DeclarationManifest"></a> Declaration AndroidManifest.xml
-<i>Step 1</i>: The SDK uses permissions as listed below. Kindly note that the app requires to implements it's own Permission Request as the SDK does not provide Permission Request.
+<i>Step 1</i>: The SDK use permissions as listed below. Kindly note that the app requires to implement it's own Permission Requests as the SDK does not provide Permission Requests. 
 ```xml
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -200,8 +200,9 @@ implementation 'com.google.android.gms:play-services-vision:17.0.2'
 <uses-feature android:name="android.hardware.camera" />
 <uses-feature android:name="android.hardware.camera.autofocus"/>
 ```
+*Note : Permission Request is a window that shows up asking for permission to access the required hardware/software component on the smartphone such as camera/contacts/wifi/etc when you install and run any android app for the first time.*
 
-<i>Step 2</i>: FileProvider for Android Lolipop(5.0), Android Marshmallow (6.0) Android Nougat (7.0) and Above. Add the following code to your Manifest:
+<i>Step 2</i>: FileProvider definition is required for Android Lolipop(5.0), Android Marshmallow (6.0) Android Nougat (7.0) and Above. Please add the following code to your Manifest:
 ```xml
 <provider
     android:name="android.support.v4.content.FileProvider"
@@ -213,14 +214,14 @@ implementation 'com.google.android.gms:play-services-vision:17.0.2'
         android:resource="@xml/provider_path"/>
 </provider>
 ```
-The following code add to a new resources file with the following path and name (res/xml/provider_path.xml):
+Also add the following code to a new resources file with the following path and name (res/xml/provider_path.xml):
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <external-path name="." path="."/>
 </paths>
 ```
-<i>Step 3</i>: Depending on the API URL provided, additional resources file with the following path and name (res/xml/network_security_config.xml) is required:
+<i>Step 3</i>: Depending on the API URL provided, additional resources file with the following code, path and name (res/xml/network_security_config.xml) is required:
 ```xml
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
@@ -229,7 +230,7 @@ The following code add to a new resources file with the following path and name 
 </network-security-config>
 ```
 
-### <a name="ImportSDK"></a> Import SDK classes
+### <a name="ImportSDK"></a> Code to import SDK classes
 ```java
 import com.xendity.reader.XenditySDK;
 import com.xendity.reader.Callback.XenditySDKCallback;
@@ -237,8 +238,8 @@ import com.xendity.reader.Callback.XendityScannerCallback;
 import com.xendity.reader.Model.Enum.OCRType;
 ```
 
-### <a name="InitXenditySDK"></a> Initialize Xendity SDK
-Please ensure that you execute the below code first before proceeding to other features of the SDK.
+### <a name="InitXenditySDK"></a> Code to initialize Xendity SDK
+Please ensure that you execute the code below first before proceeding to other features of the SDK. If not, other features will not run or will produce errors.
 ```java
 XenditySDK.initSDK(String apiKey, String apiURL, Activity inputActivity, XenditySDKCallback callback);
 ```
@@ -254,7 +255,7 @@ XenditySDK.initSDK(String apiKey, String apiURL, Activity inputActivity, Xendity
 public void InitSDKStatus(boolean status, String message);
 ```
 <b>Description:</b>
-Callback function that is used to determine the status of the Initialization of XenditySDK<br>
+Callback function that returns two value(status and message) to determine the status of the initialization process of XenditySDK.<br>
 <b>Parameters:</b>
 * status : Determines whether the SDK can be used or not.
 * message : Contains the error message if the SDK cannot be initialized.
@@ -299,8 +300,8 @@ The sample value of `inputDetails` is shown as below.
 }
 ```
 
-### <a name="XCameraActivity"></a> Implementation of Custom Scanner Activity
-Before proceed calling the `deployScanner` function, the app must have an Extended `XCameraActivity` class, in which the extended class will be used to Scan ID Card. The minimum implementation of the Extended `XCameraActivity` class is shown below.
+### <a name="XCameraActivity"></a> Implementation of the Custom Scanner Activity
+Before proceeding to call the `deployScanner` function, the app must have an Extended `XCameraActivity` class, in which the extended class will be used to scan the ID Card. The minimum implementation of the Extended `XCameraActivity` class is shown below.
 ```java
 /** Sample Class of Extended XCameraActivity */
 public class CameraActivity extends XCameraActivity implements View.OnClickListener {
@@ -374,10 +375,11 @@ public class CameraActivity extends XCameraActivity implements View.OnClickListe
 ```
 
 ### <a name="StartScanID"></a> Start Scan ID CARD
-Before calling the `deployScanner`, the App may enable the `setPreviewOCR` which will allows the Scanner to call `showPreview` function for the App to preview the image before submitted for OCR Process.
+Before calling the `deployScanner` function, the App may enable the `setPreviewOCR` function from XenditySDK class by setting the attribute to true which will allows the Scanner to call `showPreview` function for the App to preview the image before being submitted for the OCR Process.
 ```java
 XenditySDK.setPreviewOCR(true);
 ```
+*Note : This will enable preview function so that user will be able to see preview image on the app.*
 
 Below shows the `deployScanner` that will be used to initiate the Scanner for ID Card Scanning.
 ```java
@@ -390,7 +392,7 @@ XenditySDK.deployScanner(int inputOCRType, Activity inputActivity, Class inputCl
 | inputClass    | The extended `XCameraActivity` class that is used as overlay for the Camera Activity. |
 | callback      | Callback function for ID Scanning. |
 
-Kindly note that the below code is required to be executed after `successCallback` function being called. Otherwise, for each scanning, the SDK will charged the scan and in on-premise server case, no data will be passed to server.
+Kindly note that the below code is required to be executed after `successCallback` function being called. Otherwise, for each scanning, the SDK will charged the scan (means you will be billed) and in on-premise server case, no data will be passed to server.
 ```java
 XenditySDK.completeScanDeployment(String onBoardingID, JSONObject metaCardResult, JSONObject cardResult, int inputOCRType, Activity inputActivity, XendityScannerCallback callback)
 ```
@@ -420,7 +422,7 @@ The value of `metaCardResult` is shown as below.
 public void scanResults(JSONObject rawOCRResults, String onBoardingID, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that provides Scanning Results from ID Scanning Process<br>
+Callback function that provides Scanning Results (rawOCRResults, onBoardingID, errorMessage) from ID Scanning Process<br>
 <b>Parameters:</b>
 * rawOCRResults : Result card info from the reader.
 * onBoardingID : The Overal Transaction ID for the whole Onboarding Process.
@@ -430,7 +432,7 @@ Callback function that provides Scanning Results from ID Scanning Process<br>
 public void scanMetaDocFrontResults(Bitmap frontDocBitmap, String refFrontDocBitmap, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that provides Meta Document Front Results from ID Scanning Process<br>
+Callback function that provides Meta Document Front Results (frontDocBitmap, refFrontDocBitmap, errorMessage) from ID Scanning Process<br>
 <b>Parameters:</b>
 * frontDocBitmap : The Front ID Card Image from ID Scanner.
 * refFrontDocBitmap : The reference Front ID of the ID Card Image.
@@ -440,7 +442,7 @@ Callback function that provides Meta Document Front Results from ID Scanning Pro
 public void scanMetaDocBackResults(Bitmap backDocBitmap, String refBackDocBitmap, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that provides Meta Document Back Results from ID Scanning Process<br>
+Callback function that provides Meta Document Back Results (frontDocBitmap, refFrontDocBitmap, errorMessage) from ID Scanning Process<br>
 <b>Parameters:</b>
 * frontDocBitmap : The Back ID Card Image from ID Scanner.
 * refFrontDocBitmap : The reference Back ID of the ID Card Image.
@@ -450,7 +452,7 @@ Callback function that provides Meta Document Back Results from ID Scanning Proc
 public scanMetaDocFaceResults(Bitmap faceBitmap, String refFaceBitmap, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that provides Meta Document Face Results from ID Scanning Process. Only applicable if the Scan Document contains Face of the Owner's Document.<br>
+Callback function that provides Meta Document Face Results (faceBitmap, refFaceBitmap, errorMessage) from ID Scanning Process. Only applicable if the Scan Document contains Face of the Owner's Document. (for example: Passport, ID Card, Driving License, etc)<br>
 <b>Parameters:</b>
 * faceBitmap : Refers to Cropped Face Image from ID Card Image.
 * refFaceBitmap : The reference ID of the Cropped Face Image.
@@ -470,7 +472,7 @@ Callback function that provides Text Similarity features. Only applicable if the
 public void scanLandmarkInformation(JSONObject landmarkScores);
 ```
 <b>Description:</b>
-Callback function that provides the Landmark Scores of the ID Cards. Used to determine the legitimacy of the ID Card.<br>
+Callback function that provides the Landmark Scores (in form of JSON data object) of the ID Cards. Used to determine the legitimacy of the ID Card.<br>
 <b>Parameters:</b>
 * landmarkScores : The landmark scores for each field that is captured by the ID Scanner.
 For full sample of `LandmarkResults` refer to below (Please note only applicable for MyKad Scanning).
@@ -486,13 +488,13 @@ For full sample of `LandmarkResults` refer to below (Please note only applicable
 public void scanCompleteDeployment(boolean status, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that is called when the Scanning has been charged completely. Not yet applicable for this version.<br>
+Callback function that is called when the Scanning has been charged completely (Means the billing process is successful). Not yet applicable for this version.<br>
 <b>Parameters:</b>
 * status : Represents whether the `completeScanDeployment` is successfully called or not.
 * errorMessage : Error passed from processing `completeScanDeployment`.
 
 ### <a name="OCRType"></a> Scanning Types
-This Scanning Types determines the OCR Results being produced from the Scanner.
+This Scanning Types determines the OCR Results being produced from the Scanner. (Different types has different scanning functions) 
 
 | Scan Config Class                | Description                                      |
 |----------------------------------|--------------------------------------------------|
@@ -540,21 +542,21 @@ Get Army Number from ID Card.
 public String mBackDocumentNumber = "";
 ```
 <b>Description:</b>
-Get document ID Number from Back ID Card.
+Get document ID Number from Back side of ID Card.
 
 ---
 ```java
 public String mFrontName = "";
 ```
 <b>Description:</b>
-Get Name from Front ID Card.
+Get Name from Front side of ID Card.
 
 ---
 ```java
 public String mBackName = "";
 ```
 <b>Description:</b>
-Get Name from Back ID Card.
+Get Name from Back side of ID Card.
 
 ---
 ```java
@@ -624,42 +626,42 @@ Get marital status from ID Card.
 public String mJob = "";
 ```
 <b>Description:</b>
-Get job from ID Card.
+Get job data from ID Card.
 
 ---
 ```java
 public String mGender = "";
 ```
 <b>Description:</b>
-Get gender from ID Card.
+Get gender data from ID Card.
 
 ---
 ```java
 public String mCitizenship = "";
 ```
 <b>Description:</b>
-Get citizenship from ID Card.
+Get citizenship data from ID Card.
 
 ---
 ```java
 public String mNationality = "";
 ```
 <b>Description:</b>
-Get nationality from ID Card.
+Get nationality data from ID Card.
 
 ---
 ```java
 public String mRace = "";
 ```
 <b>Description:</b>
-Get race from ID Card.
+Get race data from ID Card.
 
 ---
 ```java
 public String mPlaceOfBirth = "";
 ```
 <b>Description:</b>
-Get place of birth from ID Card.
+Get place of birth data from ID Card.
 
 ---
 ```java
@@ -784,7 +786,7 @@ Get Faculty Address from ID Card (Only in Singapore PASS or Work Permit).
 
 ## <a name="ImplementationFaceMatch"></a> Implementation Face Match feature
 ### <a name="XFaceMatchActivity"></a> Implementation of Custom Face Match Activity
-Before proceed calling the `deployFaceMatch` function, the app must have an Extended `XFaceMatchActivity` class, in which the extended class will be used to process face match motion. The minimum implementation of the Extended `XFaceMatchActivity` class is shown below.
+Before proceeding to call the `deployFaceMatch` function, the app must have an Extended `XFaceMatchActivity` class, in which the extended class will be used to process the face match motion. The minimum implementation of the Extended `XFaceMatchActivity` class is shown below.
 ```java
 /** Sample Class of Extended XFaceMatchActivity */
 public class FaceMatchActivity extends XFaceMatchActivity implements View.OnClickListener {
@@ -861,7 +863,7 @@ public class FaceMatchActivity extends XFaceMatchActivity implements View.OnClic
 ```
 
 ### <a name="StartFaceMatch"></a> Start Face Match Function
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Match Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to the Face Match Feature.
 ```java
 XenditySDK.deployFaceMatch(String onBoardingID, String inputImageRef, Activity inputActivity, Class inputClass, XendityFaceCallback callback);
 ```
@@ -875,7 +877,7 @@ XenditySDK.deployFaceMatch(String onBoardingID, String inputImageRef, Activity i
 
 ## <a name="ImplementationLiveness"></a> Implementation Liveness feature
 ### <a name="XFaceRecordActivity"></a> Implementation of Custom Face Record Activity
-Before proceed calling the `deployFaceRecord` function, the app must have an Extended `XFaceRecordActivity` class, in which the extended class will be used to process Liveness video. The minimum implementation of the Extended `XFaceRecordActivity` class is shown below.
+Before proceeding to call the `deployFaceRecord` function, the app must have an Extended `XFaceRecordActivity` class, in which the extended class will be used to process the Liveness video. The minimum implementation of the Extended `XFaceRecordActivity` class is shown below.
 ```java
 /** Sample Class of Extended XFaceRecordActivity */
 public class FaceRecordActivity extends XFaceRecordActivity implements View.OnClickListener {
@@ -938,7 +940,7 @@ public class FaceRecordActivity extends XFaceRecordActivity implements View.OnCl
 ```
 
 ### <a name="StartFaceRecord"></a> Start Face Record Function
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Record / Liveness Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to the Face Record / Liveness Feature.
 ```java
 XenditySDK.deployFaceRecord(String onBoardingID, Activity inputActivity, Class inputClass, XendityFaceCallback callback);
 ```
@@ -955,7 +957,7 @@ XenditySDK.deployFaceRecord(String onBoardingID, Activity inputActivity, Class i
 public void faceMatchResult(boolean isMatched, double percentMatched, String error);
 ```
 <b>Description:</b>
-Callback function that provides Face Match Results from Face Match Process<br>
+Callback function that provides Face Match Results (isMatched, percentMatched, error) from the Face Match Process<br>
 <b>Parameters:</b>
 * isMatched : True for Matched Face. Otherwise, False.
 * percentMatched : Percentage of Face Matching.
@@ -965,14 +967,14 @@ Callback function that provides Face Match Results from Face Match Process<br>
 public void faceMatchMetaResult(Bitmap outputBitmap, String outputRef);
 ```
 <b>Description:</b>
-Callback function that provides meta Face Match Results from Face Match Process<br>
+Callback function that provides meta Face Match Results (outputBitmap, outputRef) from the Face Match Process<br>
 <b>Parameters:</b>
 * outputBitmap : The Face Image captured during Face Match Process.
 * outputRef : The reference ID of the image captured.
 
-## <a name="ImplementationKBAVerification"></a> Implementation KBA Verification related feature.
+## <a name="ImplementationKBAVerification"></a> Implementation of KBA Verification related feature.
 ### <a name="IDVerification"></a> Implementation of ID Verification for KBA Verification
-Kindly note that ID Scan Feature must be implemented first and executed before proceed for ID Verification feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to ID Verification feature.
 ```java
 XenditySDK.IDVerificationForOnBoarding(String onBoardingID, Activity inputActivity, XendityKBACallback callback);
 ```
@@ -983,7 +985,7 @@ XenditySDK.IDVerificationForOnBoarding(String onBoardingID, Activity inputActivi
 | callback          | Callback function for KBA Verification.                                                      |
 
 ### <a name="KBARequest"></a> Implementation of KBA Request for Onboarding.
-Kindly note that ID Scan Feature & ID Verification Feature must be implemented first and executed before proceed for KBA Request. This feature will be used to provide questions for the users to answers.
+Kindly note that ID Scan Feature & ID Verification Feature must be implemented and executed first before proceeding to KBA Request. This feature will be used to provide questions for the user to answer.
 ```java
 XenditySDK.RequestKBAForOnBoarding(String onBoardingID, String referenceNo, Activity inputActivity, XendityKBACallback callback);
 ```
@@ -995,7 +997,7 @@ XenditySDK.RequestKBAForOnBoarding(String onBoardingID, String referenceNo, Acti
 | callback          | Callback function for KBA Verification.                                                      |
 
 ### <a name="KBAVerification"></a> Implementation of KBA Verification for Onboarding.
-Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented first and executed before proceed for KBA Verification.
+Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented and executed first before proceeding to KBA Verification.
 ```java
 XenditySDK.VerifyKBAForOnBoarding(String onBoardingID, String referenceNo, AnswerKBA[] answers, Activity inputActivity, XendityKBACallback callback);
 ```
@@ -1008,7 +1010,7 @@ XenditySDK.VerifyKBAForOnBoarding(String onBoardingID, String referenceNo, Answe
 | callback          | Callback function for KBA Verification. |
 
 ### <a name="AnswerKBA"></a> AnswerKBA Class Details
-This class will be used to verify the answer of the KBA's questions provided by the user.
+This class will be used to verify the answer to the KBA's questions provided by the user.
 ```java
 /** The Question ID will be provided from `questionObject` passed from the `KBARequestStatus` callback function. */
 public void setQuestionID(String questionID);
@@ -1071,7 +1073,7 @@ Below shows the details of the param `Status` value.
 public void KBARequestStatus(JSONArray questionObject, String errorMessage);
 ```
 <b>Description:</b>
-Callback function that provides meta Face Match Results from Face Match Process<br>
+Callback function that provides meta Face Match Results (questionObject, errorMessage) from the Face Match Process<br>
 <b>Parameters:</b>
 * questionObject : Contains the details of the questions that provide verification purpose for users. Refer to the sample JSON below for details.
 ```json
@@ -1111,7 +1113,7 @@ Callback function that provide results of the KBA Verification<br>
 
 ### <a name="ErrorCode"></a> Possible Error Codes generated by SDKs
 Below show the list of Error Codes that will pass back to the App based on the number of fallback testing.
-Please note that the Error Code structure starts with the Error Code followed by description of the error code with dash as it's separator.
+Please note that the Error Code structure starts with the Error Code followed by description of the error code with single dash as it's separator.
 The vertical bar in the error code description represents alternative description of the error.
 ```java
 SDK_RESPONSE_TOKEN_ERROR = "300-Unable to Require Access Token. Please try again later.";
