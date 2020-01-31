@@ -2,7 +2,7 @@
 Docs version: 1.0.0<br>
 Last updated: Nov 13, 2019
 
-Xenchain SDK for Cordova is SDK that allows the use of ID Scanning Features and Face Match capabilities into Cordova Applications. This version is a ported/converted version of existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk_v1.1) and [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework_v1.1), featuring the usage of Native SDK functions and ease of integration for Cordova Development. This version is intended and used to fulfill SME (Small and Medium Enterprise) Sector requirements.
+**Xenchain SDK for Cordova** is a SDK that allows the use of ID Scanning Features and Face Match capabilities in Cordova Applications. This version is a ported/converted version of existing [Xenchain SDK for Android Platform](https://github.com/XenchainIO/xenchain_android_sdk_v1.1) and [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework_v1.1), featuring the usage of Native SDK functions and ease of integration for Cordova Development. This version is intended and used to fulfill SME (Small and Medium Enterprise) Sector requirements.
 
 ## <a name="Authors"></a> Authors
 Jovial Tan (jovial@xendity.com)<br>
@@ -70,7 +70,7 @@ Please note that before any integration is done to the existing project, you may
 ```
 
 ### <a name="InitXenchainSDK"></a> Initialize Xenchain SDK
-Please ensure that you execute the code below first before proceeding to other features of the SDK. If not, other features will not run or will produce errors.
+Please ensure that you execute the code below first with the callback called before proceeding to other features of the SDK. If not, other features will not run or will produce errors.
 ```javascript
 cordova.plugins.XenchainSDK.initSDK(String apiKey, String apiURL, boolean onPremSaveData, successCallback, errorCallback);
 ```
