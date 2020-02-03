@@ -2,7 +2,7 @@
 SDK version: 1.0.6<br>
 Last updated: Jan 30, 2020
 
-Xendity SDK for iOS is SDK that allows the use of ID Scanning Features and Face Match capabilities into Android Applications. This version is an In-House Version of the existing [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework), featuring improvement of Performance and ease of integration in comparison to older version.
+**Xendity SDK for iOS** is SDK that allows the use of ID Scanning Features and Face Match capabilities into Android Applications. This version is an *In-House Version* of the existing [Xenchain SDK for iOS Platform](https://github.com/XenchainIO/xenchain_ios_framework), featuring improvement of Performance and ease of integration in comparison to older version.
 
 ## <a name="Authors"></a> Authors
 Jovial Tan (jovial@xendity.com)<br>
@@ -108,14 +108,14 @@ Jovial Tan (jovial@xendity.com)<br>
 | :--------------: | ------- | ------------- |
 | Step 0           | Initialize Xendity SDK | [`InitSDK`](#-initialize-xendity-sdk) |
 | Step 1           | Implementation of ID Card Reader | [`DeployScanner`](#-implementation-of-id-card-reader) |
-| Step 2           | Implementation Face match feature | [`DeployFaceMatch`](#-implementation-face-match-feature) |
-| Step 2           | Implementation Liveness feature | [`DeployFaceRecord`](#-implementation-liveness-feature) |
-| Step 3           | Implementation KBA Verification related feature | [`IDVerificationForOnBoarding`](#-implementation-kba-verification-related-feature) |
+| Step 2           | Implementation of Face match feature | [`DeployFaceMatch`](#-implementation-face-match-feature) |
+| Step 2           | Implementation of Liveness feature | [`DeployFaceRecord`](#-implementation-liveness-feature) |
+| Step 3           | Implementation of KBA Verification related feature | [`IDVerificationForOnBoarding`](#-implementation-kba-verification-related-feature) |
 | Step 4           | Implementation of KBA Request for Onboarding.<br />Implementation of KBA Verification for Onboarding. | [`RequestKBAForOnBoarding`](#-implementation-of-kba-request-for-onboarding)<br />[`VerifyKBAForOnBoarding`](#-implementation-of-kba-verification-for-onboarding) |
 
 ### <a name="AddSDK"></a> Adding SDK into project
 Kindly note that the project requires the use of a real physical iOS Device in order for the SDK to compile and work properly. Otherwise, will result in either compilation error or no access to the camera.<br>
-*Step 1*: Download XenditySDK.framework file. Please note that you are required to use **Git LFS** to download the Frameworks folder. Otherwise, manually download the [XenditySDK](Frameworks/XenditySDK.framework/XenditySDK) file and replace them respectively as shown below. **Failure to do so will results in App Crash during the `InitSDK` process.** <br>
+*Step 1*: Download XenditySDK.framework file. Please note that you are required to use **Git LFS** (Git Large File Storage) to download the Frameworks folder. Otherwise, manually download the [XenditySDK](Frameworks/XenditySDK.framework/XenditySDK) file and replace them accordingly as shown below. **Failure to do so will results in App Crash during the `InitSDK` process.** <br>
 ![Download Xendity](Images/ios_download_xendity.png "Download Xendity")
 ![Replace Xendity](Images/ios_replace_xendity.png "Replace Xendity")
 <br/>
@@ -132,7 +132,7 @@ Please follow the red oval below to setup for the frameworks which is crucial fo
 ![Build Settings](Images/ios_build_search_path.png "Build Settings")
 
 #### <a name="InfoPlistSetup"></a> Info.plist Setup
-Kindly add the below configuration setup to allow iOS to bypass the HTTPS checking for Xendity URL. In addition, please setup Privacy – Camera Usage Description and Privacy – Photo Library Usage Description. Please note that the contents of these Privacy can be anything. Finally, the key for `apiurl` must be replaced and will be provided by Xendity.
+Kindly add the below configuration setup to allow iOS to bypass the HTTPS checking for Xendity URL. In addition, please setup Privacy – Camera Usage Description and Privacy – Photo Library Usage Description. Please note that the contents of these Privacy Description can be anything. Finally, the key for `apiurl` must be replaced and will be provided by Xendity.
 ```xml
 <key>NSAppTransportSecurity</key>
 <dict>
@@ -155,7 +155,7 @@ Kindly add the below configuration setup to allow iOS to bypass the HTTPS checki
 
 #### <a name="BuildPhaseSetup"></a> Build Phase Setup
 ![alt text](Images/ios_build_phase_script.png "Build Phases")<br>
-Kindly add the script configuration below to remove all the Device Architecture from the Framework as shown in the image above. Please add the script on the very last of the Build Phase. Failure to do so might result in rejection when upload to the Apple Store.
+Kindly add the script configuration below to remove all the Device Architecture from the Framework as shown in the image above. Please add the script on the very last of the Build Phase. Failure to do so might result in rejection when uploading to the Apple Store.
 ```javascript
 APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
 
@@ -199,7 +199,7 @@ import XenditySDK;
 ```
 
 ### <a name="InitXenditySDK"></a> Initialize Xendity SDK
-Please ensure that you execute the below code first before proceeding to other features of the SDK.
+Please ensure that you execute the code code first before proceeding to other features of the SDK.
 ```swift
 // For Swift Implementation
 XenditySDK.initSDK("SampleAPIKey", apiURL: "SampleAPIURL", completionHandler: XenditySDKCallback)
@@ -211,7 +211,7 @@ XenditySDK.initSDK("SampleAPIKey", apiURL: "SampleAPIURL", completionHandler: Xe
 | Parameter         | Description |
 |-------------------|-------------|
 | apiKey            | API Key for activating SDK Features. |
-| apiURL            | URL Server Address which can be configured to point another server should client request private server. The value of this parameter will need to be requested from Xendity Admin.     |
+| apiURL            | URL Server Address which can be configured to point to another server should client request private server. The value of this parameter will need to be requested from Xendity Admin.     |
 | completionHandler | Callback function for returning the results of `initSDK` function. Refer to  |
 
 ### <a name="XenditySDKCallback"></a> XenditySDKCallback callback functions
@@ -289,7 +289,7 @@ The sample value of `inputDetails` is shown as below.
 ```
 
 ### <a name="XCameraViewController"></a> Implementation of Custom Scanner ViewController
-Before proceed calling the `deployScanner` function, the app must have an Extended `XCameraViewController` class, in which the extended class will be used to Scan ID Card. The minimum implementation of the Extended `XCameraViewController` class is shown below.
+Before proceeding to call the `deployScanner` function, the app must have an Extended `XCameraViewController` class, in which the extended class will be used to Scan ID Card. The minimum implementation of the Extended `XCameraViewController` class is shown below.
 ```swift
 /** Sample Swift Class of Extended XCameraViewController */
 // Assume that the App has a protocol name PreviewListener (Optional)
@@ -404,7 +404,7 @@ class CameraViewController: XCameraViewController, PreviewListener {
 ```
 
 ### <a name="StartScanID"></a> Start Scan ID CARD
-Before calling the `DeployScanner`, the App may enable the `SetPreviewOCR` which will allows the Scanner to call `showPreview` function for the App to preview the image before submitted for OCR Process.
+Before calling the `DeployScanner`, the App may enable the `SetPreviewOCR` which will allows the Scanner to call `showPreview` function for the App to preview the image before being submitted for OCR Process.
 ```swift
 // For Swift Implementation
 XenditySDK.SetPreviewOCR(true);
@@ -430,7 +430,7 @@ XenditySDK.DeployScanner(inputOCRType, inputController: self, extendedController
 | extendedController | The extended `XCameraViewController` class that is used as overlay for the Camera ViewController. Value can be `nil` for default UI. |
 | completionHandler  | Callback function for ID Scanning. |
 
-Kindly note that the below code is required to be executed after `successCallback` function being called. Otherwise, for each scanning, the SDK will charged the scan and in on-premise server case, no data will be passed to server.
+Kindly note that the code below is required to be executed after the `successCallback` function being called. Otherwise, for each scanning, the SDK will charged (billed) the scan and in on-premise server case, no data will be passed to the server.
 ```swift
 // For Swift Implementation
 XenditySDK.completeScanDeployment(onBoardingID, metaCardResult: mMetaCardResults, cardResult: rawOCRResults, inputOCRType: inputOCRType, completionHandler: self)
@@ -473,7 +473,7 @@ func scanResults(_ rawOCRResults: NSDictionary!, onBoardingID: String!, errorMes
 Callback function that provides Scanning Results from ID Scanning Process<br>
 <b>Parameters:</b>
 * rawOCRResults : Result card info from the reader.
-* onBoardingID : The Overal Transaction ID for the whole Onboarding Process.
+* onBoardingID : The Overall Transaction ID for the whole Onboarding Process.
 * errorMessage : Error passed from processing ID Card result.
 ---
 ```swift
@@ -530,7 +530,7 @@ func ScanSimilarityResults(_ nameIsSimilar: bool!, _ documentNoIsSimilar: bool!,
 - (void)ScanSimilarityResults:(bool)nameIsSimilar documentNoIsSimilar:(bool)documentNoIsSimilar frontBackIsSimilar:(bool)frontBackIsSimilar;
 ```
 <b>Description:</b>
-Callback function that provides Text Similarity features. Only applicable if the app has execute `setPreDeployment` function. Used to determine the legitimacy of the ID Card.<br>
+Callback function that provides Text Similarity features. Only applicable if the app has executed `setPreDeployment` function. Used to determine the legitimacy of the ID Card.<br>
 <b>Parameters:</b>
 * nameIsSimilar : Show whether the name obtained from Scanner is similar to the value submitted in `setPreDeployment` function.
 * documentNoIsSimilar : Show whether the document number obtained from Scanner is similar to the value submitted in `setPreDeployment` function.
@@ -581,7 +581,7 @@ func ScanCompleteDeployment(_ status: Bool, errorMessage: String!)
 -(void) ScanCompleteDeployment:(bool)status errorMessage:(NSString *)errorMessage;
 ```
 <b>Description:</b>
-Callback function that is called when the Scanning has been charged completely.<br>
+Callback function that is called when the Scanning has been charged (billed) completely.<br>
 <b>Parameters:</b>
 * status : Represents whether the `completeScanDeployment` is successfully called or not.
 * errorMessage : Error passed from processing `completeScanDeployment`.
@@ -879,7 +879,7 @@ Get Faculty Address from ID Card (Only in Singapore PASS or Work Permit).
 
 ## <a name="ImplementationFaceMatch"></a> Implementation Face Match feature
 ### <a name="XFaceRecordViewController"></a> Implementation of Custom Face Match Activity
-Before proceed calling the `DeployFaceMatch` function, the app must have an Extended `XFaceMatchViewController` class, in which the extended class will be used to process Liveness video. The minimum implementation of the Extended `XFaceMatchViewController` class is shown below.
+Before proceeding to call the `DeployFaceMatch` function, the app must have an Extended `XFaceMatchViewController` class, in which the extended class will be used to process Liveness video. The minimum implementation of the Extended `XFaceMatchViewController` class is shown below.
 ```swift
 /** Sample Swift Class of Extended XFaceMatchViewController */
 class FaceMatchViewController: XFaceMatchViewController {
@@ -972,7 +972,7 @@ class FaceMatchViewController: XFaceMatchViewController {
 ```
 
 ### <a name="StartFaceMatch"></a> Start Face Match Function
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Match Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to Face Match Feature.
 ```swift
 // For Swift Implementation
 XenditySDK.DeployFaceMatch(self, onBoardingID: mOnBoardingID, imageRef: mRefFaceImage, inputController: self, extendedController: self.storyboard!.instantiateViewController(withIdentifier: "FaceMatchViewController"), completionHandler: self)
@@ -992,7 +992,7 @@ XenditySDK.DeployFaceMatch(self, onBoardingID: mOnBoardingID, imageRef: mRefFace
 
 ## <a name="ImplementationLiveness"></a> Implementation Liveness feature
 ### <a name="XFaceRecordViewController"></a> Implementation of Custom Face Record Activity
-Before proceed calling the `deployFaceRecord` function, the app must have an Extended `XFaceRecordViewController` class, in which the extended class will be used to process Liveness video. The minimum implementation of the Extended `XFaceRecordViewController` class is shown below.
+Before proceeding to call the `deployFaceRecord` function, the app must have an Extended `XFaceRecordViewController` class, in which the extended class will be used to process Liveness video. The minimum implementation of the Extended `XFaceRecordViewController` class is shown below.
 ```swift
 /** Sample Swift Class of Extended XFaceRecordViewController */
 class FaceRecordViewController: XFaceRecordViewController {
@@ -1033,7 +1033,7 @@ class FaceRecordViewController: XFaceRecordViewController {
 ```
 
 ### <a name="StartFaceRecord"></a> Start Face Record Function
-Kindly note that ID Scan Feature must be implemented first and executed before proceed to Face Record / Liveness Feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to Face Record / Liveness Feature.
 ```swift
 // For Swift Implementation
 XenditySDK.DeployFaceRecord(onBoardingID, inputController: self, extendedController: self.storyboard!.instantiateViewController(withIdentifier: "FaceRecordViewController"), completionHandler: self)
@@ -1061,7 +1061,7 @@ func faceMatchResult(_ isMatched: Bool, percentMatched: Double, error: String!)
 - (void)FaceMatchResult:(bool)isMatched percentMatched:(double)percentMatched error:(NSString *)error;
 ```
 <b>Description:</b>
-Callback function that provides Face Match Results from Face Match Process<br>
+Callback function that provides Face Match Results (isMatched, percentMatched, error) from Face Match Process<br>
 <b>Parameters:</b>
 * isMatched : True for Matched Face. Otherwise, False.
 * percentMatched : Percentage of Face Matching.
@@ -1076,14 +1076,14 @@ func faceMatchMetaResult(_ outputImage: UIImage!, outputRef: String!)
 - (void)FaceMatchMetaResult:(UIImage *)outputImage outputRef:(NSString *)outputRef;
 ```
 <b>Description:</b>
-Callback function that provides meta Face Match Results from Face Match Process<br>
+Callback function that provides meta Face Match Results (outputBitmap, outputRef) from Face Match Process<br>
 <b>Parameters:</b>
 * outputBitmap : The Face Image captured during Face Match Process.
 * outputRef : The reference ID of the image captured.
 
 ## <a name="ImplementationKBAVerification"></a> Implementation KBA Verification related feature.
 ### <a name="IDVerification"></a> Implementation of ID Verification for KBA Verification
-Kindly note that ID Scan Feature must be implemented first and executed before proceed for ID Verification feature.
+Kindly note that ID Scan Feature must be implemented and executed first before proceeding to ID Verification feature.
 ```swift
 // For Swift Implementation
 XenditySDK.IDVerificationForOnBoarding(mOnBoardingID, completionHandler: self)
@@ -1098,7 +1098,7 @@ XenditySDK.IDVerificationForOnBoarding(mOnBoardingID, completionHandler: self)
 | completionHandler | Callback function for KBA Verification.                                                      |
 
 ### <a name="KBARequest"></a> Implementation of KBA Request for Onboarding.
-Kindly note that ID Scan Feature & ID Verification Feature must be implemented first and executed before proceed for KBA Request. This feature will be used to provide questions for the users to answers.
+Kindly note that ID Scan Feature & ID Verification Feature must be implemented and executed first before proceeding to KBA Request. This feature will be used to provide questions for the user to answer.
 ```swift
 // For Swift Implementation
 XenditySDK.RequestKBAForOnBoarding(mOnBoardingID, referenceNo:mReferenceNo, completionHandler: self)
@@ -1114,7 +1114,7 @@ XenditySDK.RequestKBAForOnBoarding(mOnBoardingID, referenceNo:mReferenceNo, comp
 | callback          | Callback function for KBA Verification.                                                      |
 
 ### <a name="KBAVerification"></a> Implementation of KBA Verification for Onboarding.
-Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented first and executed before proceed for KBA Verification.
+Kindly note that ID Scan Feature, ID Verification Feature, & KBA Request Feature must be implemented and executed first before proceeding to KBA Verification.
 ```swift
 // For Swift Implementation
 XenditySDK.VerifyKBAForOnBoarding(mOnBoardingID, referenceNo:mReferenceNo, answers:mAnswers, completionHandler: self)
@@ -1132,7 +1132,7 @@ XenditySDK.VerifyKBAForOnBoarding(mOnBoardingID, referenceNo:mReferenceNo, answe
 | callback          | Callback function for KBA Verification. |
 
 ### <a name="AnswerKBA"></a> AnswerKBA Class Details
-This class will be used to verify the answer of the KBA's questions provided by the user.
+This class will be used to verify the answers provided by the user to the KBA questions.
 ```swift
 // For Swift Implementation
 /** The Question ID will be provided from `questionObject` passed from the `KBARequestStatus` callback function. */
@@ -1218,7 +1218,7 @@ func KBARequestStatus(_ questionObject: NSDictionary!, errorMessage: String!)
 <b>Description:</b>
 Callback function that provides meta Face Match Results from Face Match Process<br>
 <b>Parameters:</b>
-* questionObject : Contains the details of the questions that provide verification purpose for users. Refer to the sample JSON below for details.
+* questionObject : Contains the details of the questions that has to be answered by the user. Refer to the sample JSON below for details.
 ```json
 [
   {
@@ -1256,7 +1256,7 @@ func KBAVerificationStatus(_ totalCorrect: Int, errorMessage: String!)
 <b>Description:</b>
 Callback function that provide results of the KBA Verification<br>
 <b>Parameters:</b>
-* totalCorrect : The number of correct answers submitted by the users.
+* totalCorrect : The number of correct answers submitted by the user.
 * errorMessage : Error passed from verifying answers.
 
 ### <a name="ErrorCode"></a> Possible Error Codes generated by SDKs
