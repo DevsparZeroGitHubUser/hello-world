@@ -1010,7 +1010,7 @@ XenditySDK.VerifyKBAForOnBoarding(String onBoardingID, String referenceNo, Answe
 | callback          | Callback function for KBA Verification. |
 
 ### <a name="AnswerKBA"></a> AnswerKBA Class Details
-This class will be used to verify the answer to the KBA's questions provided by the user.
+This class will be used to verify the answer provided by the user to the KBA questions.
 ```java
 /** The Question ID will be provided from `questionObject` passed from the `KBARequestStatus` callback function. */
 public void setQuestionID(String questionID);
